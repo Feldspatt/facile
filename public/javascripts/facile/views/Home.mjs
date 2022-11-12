@@ -1,10 +1,12 @@
-import {DefaultView} from "./DefaultView.mjs";
+import {DefaultView} from "../Components/Views/DefaultView.mjs";
 
 export class Home extends DefaultView{
     constructor(){
-        super("Home", "home");
+        super("Home");
+
     }
 
+    static route = "home"
 
     async getTemplate() {
         return `

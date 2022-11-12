@@ -1,9 +1,11 @@
 import {DefaultView} from "./Components/Views/DefaultView.mjs"
-import {Home} from "./Components/Views/Home.mjs"
+import {Home} from "./views/Home.mjs"
+import {Login} from "./views/Login.js";
 
 const defaultViewClasses = [
     DefaultView,
-    Home
+    Home,
+    Login
 ]
 
 /**
@@ -13,30 +15,58 @@ const defaultViewClasses = [
 export class Navigator{
     constructor(viewClasses = defaultViewClasses){
         this.viewClasses = viewClasses;
-        this.views = []
-        this.currentView = null;
+
+        this.setBrowserHistory()
     }
 
-    async goToView(viewId) {
-        let viewClass = this.viewClasses.find(route => route.name === viewId)
-        if (!viewClass) viewClass = this.viewClasses[0]
+    views = []
+    currentView = null
+    window = window
+
+    async goToView(route) {
+        if(this.currentView?.constructor.name === route) {
+            console.warn(`Already on ${route} view`)
+            return
+        }
 
         let previousView = this.currentView;
 
-        let foundView = this.views.find(view => view.name === viewId)
+        let foundView = this.views.find(view => view.route === route)
         if(foundView){
             this.views.splice(this.views.indexOf(foundView), 1)
-            this.currentView = this.views.find(view => view.name === viewClass.name)
+            this.currentView = foundView
         }
         else {
+            let viewClass = this.viewClasses.find(view => view.name === route) // For convenience, the route is defined by the name of the route. If you use a bundler bewware that it may change this name. Consider defining  an explicit static route property inside of the class instead.
+            if (!viewClass) {
+                viewClass = this.viewClasses[0]
+                console.warn(`View ${route} not found, using default view`)
+            }
+
             this.currentView = await new viewClass()
-            await this.currentView.init()
+            await this.currentView.initElement()
         }
 
         this.views.push(this.currentView)
+
+        history.pushState({route}, route, this.currentView.url)
 
         await previousView?.unsetElement()
         await this.currentView.setView()
     }
 
+
+    setBrowserHistory(){
+        window.addEventListener('popstate', async (event) => {
+            console.log('popstate', JSON.stringify(event.state))
+            if(event.state){
+                await this.goToView(event.state.route)
+            }
+        })
+
+        window.onload = async (ev) => {
+            ev.preventDefault()
+            await this.goToView("Home")
+        }
+    }
 }

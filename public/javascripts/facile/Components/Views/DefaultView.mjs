@@ -2,12 +2,15 @@ import {Component} from "../Component.mjs";
 import {DefaultNavbar} from "../Navbars/DefaultNavbar.mjs";
 
 export class DefaultView extends Component{
-    constructor(title="abstract title", name= "abstractView", navbarClass = DefaultNavbar){
+
+    constructor(title= null, navbarClass = DefaultNavbar){
         super()
-        this.title = title
-        this.name = name
+        this.title = title ?? this.constructor.name
         this.navbar = new navbarClass()
     }
+
+    url = this.constructor.name
+
 
     async getTemplate() {
         return `
@@ -17,7 +20,6 @@ export class DefaultView extends Component{
             </div>`
     }
 
-    navbar
 
 
     async setView(){
@@ -34,6 +36,8 @@ export class DefaultView extends Component{
 
         document.title = this.title
     }
+
+
 
     /**
      * Override the default component method to also unset the navbar
