@@ -1,20 +1,24 @@
 import {Component} from "../Component.mjs";
 import {ViewLink} from "../ViewLink.js";
+import slot from "../helpers/makeSlot.js";
 
 export class DefaultNavbar extends Component {
 
     constructor(){
             super()
     }
+
+
+
     async getTemplate() {
         return `
         <div class="navbar">
             <div class="navbar-left">
                 <div class="navbar-item">
-                    <input data-slot="home-link">
+                    ${slot("home-link")}
                 </div>
                 <div class="navbar-item">
-                    <input data-slot="login-link">
+                    ${slot("login-link")}
                 </div>
             </div>
         </div>
