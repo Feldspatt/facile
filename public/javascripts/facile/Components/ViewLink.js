@@ -1,6 +1,6 @@
 import {Component} from "./Component.mjs";
 import stringToHTMLElement from "./helpers/stringToHtmlElement.mjs";
-import {navi} from "../../app.mjs";
+import {router} from "../../app.mjs";
 
 /**
  * Component used to navigate between views
@@ -20,7 +20,7 @@ export class ViewLink extends Component{
         this.element = stringToHTMLElement(await this.getTemplate());
         this.element.addEventListener("click", (e) => {
             e.preventDefault();
-            navi.goToView(this.route);
+            router.goToView(this.route);
         });
     }
 

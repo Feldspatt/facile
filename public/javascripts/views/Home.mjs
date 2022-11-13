@@ -1,12 +1,12 @@
-import {DefaultView} from "../Components/Views/DefaultView.mjs";
+import {DefaultView} from "../facile/Components/DefaultView.mjs";
 
 export class Home extends DefaultView{
+    static route= "home"
+
     constructor(){
         super("Home");
 
     }
-
-    static route = "home"
 
     async getTemplate() {
         return `

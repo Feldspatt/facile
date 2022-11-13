@@ -1,6 +1,6 @@
-import {Navigator} from "./facile/Navigator.mjs";
+import {Router} from "./facile/Router.mjs";
 
-export const navi = new Navigator()
+export const router = new Router()
 
-navi.goToView("Home")
+router.goToView("home")
 
