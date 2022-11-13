@@ -28,8 +28,8 @@ export class DefaultNavbar extends Component {
     async initElement(){
         await super.initElement()
 
-        let homeLink = new ViewLink("home", "Home")
-        let loginLink = new ViewLink("login", "Login")
+        let homeLink = new ViewLink("Home", "Home")
+        let loginLink = new ViewLink("Login", "Login")
 
         let hLinkEl = await homeLink.getElement()
         let lLinkEl = await loginLink.getElement()

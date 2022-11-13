@@ -1,9 +1,7 @@
-import {DefaultView} from "./Components/Views/DefaultView.mjs"
 import {Home} from "./views/Home.mjs"
 import {Login} from "./views/Login.js";
 
 const defaultViewClasses = [
-    DefaultView,
     Home,
     Login
 ]
@@ -21,7 +19,6 @@ export class Navigator{
 
     views = []
     currentView = null
-    window = window
 
     async goToView(route) {
         if(this.currentView?.constructor.name === route) {
@@ -37,7 +34,7 @@ export class Navigator{
             this.currentView = foundView
         }
         else {
-            let viewClass = this.viewClasses.find(view => view.name === route) // For convenience, the route is defined by the name of the route. If you use a bundler bewware that it may change this name. Consider defining  an explicit static route property inside of the class instead.
+            let viewClass = this.viewClasses.find(view => view.classRoute === route) // For convenience, the route is defined by the name of the route. If you use a bundler bewware that it may change this name. Consider defining  an explicit static route property inside of the class instead.
             if (!viewClass) {
                 viewClass = this.viewClasses[0]
                 console.warn(`View ${route} not found, using default view`)
@@ -63,10 +60,5 @@ export class Navigator{
                 await this.goToView(event.state.route)
             }
         })
-
-        window.onload = async (ev) => {
-            ev.preventDefault()
-            await this.goToView("Home")
-        }
     }
 }

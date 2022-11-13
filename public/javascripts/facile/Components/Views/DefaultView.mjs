@@ -2,6 +2,7 @@ import {Component} from "../Component.mjs";
 import {DefaultNavbar} from "../Navbars/DefaultNavbar.mjs";
 
 export class DefaultView extends Component{
+    static classRoute = this.name
 
     constructor(title= null, navbarClass = DefaultNavbar){
         super()
@@ -9,6 +10,8 @@ export class DefaultView extends Component{
         this.navbar = new navbarClass()
     }
 
+    navbar
+    route
     url = this.constructor.name
 
 
