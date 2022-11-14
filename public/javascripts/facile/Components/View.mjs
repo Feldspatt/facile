@@ -31,6 +31,7 @@ export class View extends Component{
     async setView(){
 
         let promises = []
+
         promises.push(this.navbar.getElement())
         promises.push(this.getElement())
 
