@@ -1,21 +1,5 @@
-import {Home} from "../views/Home.mjs"
-import {Login} from "../views/Login.js";
-import {SecondView} from "../views/SecondView.mjs";
-import {ThirdView} from "../views/ThirdView.mjs";
-
-const defaultViewClasses = [
-    Home,
-    SecondView,
-    ThirdView,
-    Login
-]
-
-/**
- * In charge of the navigation between views
- *
- */
 export class Router {
-    constructor(viewClasses = defaultViewClasses){
+    constructor(viewClasses){
         this.viewClasses = viewClasses;
         this.setBrowserHistory()
     }
@@ -45,24 +29,40 @@ export class Router {
             }
 
             this.currentView = await new viewClass()
-            await this.currentView.initElement()
         }
 
         this.views.push(this.currentView)
 
         if(pushState) history.pushState({route}, route, this.currentView.url)
 
-        await previousView?.unsetElement()
-        await this.currentView.setView()
+
+        async function switchView(currentView) {
+            if (previousView) await previousView?.unsetElement()
+            await currentView.setView()
+        }
+
+        if(this.currentView.guard) {
+            switch (await this.currentView.guard.defend()) {
+                case "allow":
+                    await switchView(this.currentView)
+                    break;
+                case "redirect":
+                    await this.goToView(this.currentView.redirect, {}, pushState)
+                    break;
+                case "stay":
+                    break;
+            }
+        }
+        else  await switchView(this.currentView)
     }
 
 
     setBrowserHistory(){
         window.addEventListener('popstate', async (event) => {
-            console.log('popstate', JSON.stringify(event.state))
             if(event.state){
                 await this.goToView(event.state.route, {}, false)
             }
         })
     }
+
 }

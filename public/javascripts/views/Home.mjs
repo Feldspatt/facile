@@ -1,6 +1,6 @@
-import {DefaultView} from "../facile/Components/DefaultView.mjs";
+import {View} from "../facile/Components/View.mjs";
 
-export class Home extends DefaultView{
+export class Home extends View{
     static route= "home"
 
     constructor(){

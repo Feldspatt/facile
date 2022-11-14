@@ -1,11 +1,10 @@
-import {DefaultView} from "../facile/Components/DefaultView.mjs";
+import {View} from "../facile/Components/View.mjs";
 
-export class Login extends DefaultView{
+export class Login extends View{
     static route= "login"
 
     constructor() {
         super("Login");
-        console.log("Login");
     }
 
 

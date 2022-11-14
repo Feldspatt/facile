@@ -1,18 +1,21 @@
 import {Component} from "./Component.mjs";
-import {DefaultNavbar} from "./DefaultNavbar.mjs";
+import {Navbar} from "./Navbar.mjs";
 
-export class DefaultView extends Component{
+export class View extends Component{
     static route = "default"
+    redirect = "index"
 
-    constructor(title= null, url, navbarClass = DefaultNavbar){
+    constructor(title= null, url, navbarClass = Navbar, guard = null){
         super()
         this.title = title ?? this.constructor.name
         this.navbar = new navbarClass()
         this.url = url ?? this.constructor.route
+        this.guard = guard
     }
 
     navbar
     url
+    guard
 
 
     async getTemplate() {

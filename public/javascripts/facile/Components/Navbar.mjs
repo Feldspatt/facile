@@ -2,7 +2,7 @@ import {Component} from "./Component.mjs";
 import {ViewLink} from "./ViewLink.js";
 import slot from "./helpers/makeSlot.js";
 
-export class DefaultNavbar extends Component {
+export class Navbar extends Component {
 
     constructor(){
             super()
