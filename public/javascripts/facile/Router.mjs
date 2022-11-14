@@ -37,7 +37,7 @@ export class Router {
 
 
         async function switchView(currentView) {
-            if (previousView) await previousView?.unsetElement()
+            if (previousView) await previousView?.removeElement()
             await currentView.setView()
         }
 

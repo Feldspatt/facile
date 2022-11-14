@@ -2,8 +2,7 @@ import {Component} from "./Component.mjs";
 import {Navbar} from "./Navbar.mjs";
 
 export class View extends Component{
-    static route = "default"
-    redirect = "index"
+
 
     constructor(title= null, url, navbarClass = Navbar, guard = null){
         super()
@@ -13,9 +12,14 @@ export class View extends Component{
         this.guard = guard
     }
 
+
+    static route = "default"
+
+    title
     navbar
     url
     guard
+    redirect = "index"
 
 
     async getTemplate() {
@@ -50,8 +54,8 @@ export class View extends Component{
      * Override the default component method to also unset the navbar
      * @returns {Promise<void>}
      */
-    async unsetElement(){
-        await this.navbar.unsetElement()
+    async removeElement(){
+        await this.navbar.removeElement()
         if(this.element) this.element.remove()
     }
 

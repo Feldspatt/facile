@@ -2,6 +2,7 @@ import stringToHTMLElement from "./helpers/stringToHtmlElement.mjs";
 
 /**
  * The base component class. Should be extended.
+ * Flow: getTemplate -> initElement -> GetElement -> *exist* -> ?updateElement?  -> unsetElement
  */
 export class Component {
     constructor(){
@@ -17,23 +18,10 @@ export class Component {
     }
 
     /**
-     * The DOM element of the component. Preferably, use getElement() instead.
+     * a referenrence to the main DOM element of this component. Preferably, use getElement() instead.
      */
     element
 
-    /**
-     * A list of all the components that are children of this component. Filling it is the responsibility of the class writer.
-     * @type {[Element]}
-     */
-    subComponents = []
-
-    /**
-     * Constructor cannot be asynchroneous, so this method is used to initialize the component
-     * @returns {Promise<void>}
-     */
-    async init(){
-
-    }
 
     /**
      * Get the DOM element of the component. Init the element if it is not already done.
@@ -46,7 +34,7 @@ export class Component {
     }
 
     /**
-     * Init the element by converting html to DOM. Can be overriden to do other things, like add event listeners.
+     * Init the element by converting html to DOM Element. Can be overriden to do other things, like add event listeners.
      * @returns {Promise<void>}
      */
     async initElement(){
@@ -54,20 +42,21 @@ export class Component {
     }
 
     /**
-     * By default, remove the element from the DOM. Can be overriden to do other things.
+     * Remove the element from the DOM, but keep it in memory for later use Can be overriden to do other things.
      * @returns {Promise<void>}
      */
-    async unsetElement(){
-        console.log("component unset");
+    async removeElement(){
         if(this.element) this.element.remove()
     }
 
     /**
-     * Replace an existing element marked by a data-slot value by another element.
-     * @param slotName {string} The data-slot attribute value of the slot to replace
-     * @param element {HTMLElement} The new element to replace the slot
+     * Inside this element, replace an element marked by a data-slot value by another element.
+     * @param slotName
+     * @param element
+     * @returns {Promise<Component>}
      */
     async fillSlot(slotName, element){
-        (await this.getElement()).querySelector(`[data-slot="${slotName.toString()}"]`).replaceWith(element);
+        (await this.getElement()).querySelector(`[data-slot="${slotName.toString()}"]`).replaceWith(element)
+        return this
     }
 }
