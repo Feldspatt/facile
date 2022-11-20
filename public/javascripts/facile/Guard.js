@@ -1,39 +1,34 @@
 /**
- *
+ * Despite being fully static, guard is a class to use inheritance.
  * @param defense {function}
  * @returns {Promise<string>}
  */
 export class Guard {
 
-    static answers = [
-        "allow", // router will continue normally.
-        "redirect", // router will go to the redirect url specified in the view.
-        "stop", // router do nothing.
-    ]
-
-    static defense = async ()=>{
-        return true
+    constructor() {
+        this.answers = guardAnswers
     }
 
     /**
-        * Override this method to add an intermediate action between the defense and the formatting of the result, for example a login modal.
-     * @param defenseResult
-     * @returns {Promise<*>}
+     * The defense function. Must return a boolean or a string from the answers array.
+     * @returns {Promise<string>}
      */
-    static async intermediateAction(defenseResult){
-        return defenseResult
+    async guard(route, params){
+        return guardAnswers[0]
     }
 
     /**
      * Make sure the defense result is a string from the answers array readable by the router.
-     * @param defenseResult
      * @returns {string}
      */
-    static getFormattedDefenseResult(defenseResult){
-        if(defenseResult ===  true) return this.answers[0]
-        else if (defenseResult === false) return this.answers[1]
+    getFormattedDefenseResult(defenseResult){
+        // if the result is a boolean, return the corresponding answer
+        if(defenseResult ===  true) return guardAnswers[0]
+        else if (defenseResult === false) return guardAnswers[2]
 
-        if(!this.answers.includes(defenseResult)) throw new Error(`answer must be a boolean or one of the following: ${answers.join(", ")}`)
+
+        if(this.answers.includes(defenseResult)) return defenseResult
+        else throw new Error(`answer must be a boolean or one of the following: ${guardAnswers.join(", ")}`)
     }
 
 
@@ -41,14 +36,17 @@ export class Guard {
      *
      * @returns {Promise<string>}
      */
-    static async defend() {
-        let defenseResult = this.defense()
+    async awaitAnswer(route, params) {
+        let defenseResult = await this.guard(route, params)
 
-        let mitigatedDefenseResult = await this.intermediateAction(defenseResult)
-
-        return  this.getFormattedDefenseResult(mitigatedDefenseResult)
+        console.log("defenseResult", defenseResult)
+        return this.getFormattedDefenseResult(defenseResult)
     }
 
 }
 
-
+const guardAnswers = [
+    "allow", // router will continue normally.
+    "redirect", // router will go to the redirect url specified in the view.
+    "stop", // router do nothing.
+]

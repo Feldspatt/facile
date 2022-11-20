@@ -9,18 +9,17 @@ export class View extends Component{
         this.title = title ?? this.constructor.name
         this.navbar = new navbarClass()
         this.url = url ?? this.constructor.route
-        this.guard = guard
     }
 
 
     static route = "default"
+    static guard = null
 
     title
     navbar
     url
-    guard
+    guardClass
     redirect = "index"
-
 
     async getTemplate() {
         return `
@@ -29,8 +28,6 @@ export class View extends Component{
                 <p>Pim pam pum</p>
             </div>`
     }
-
-
 
     async setView(){
 

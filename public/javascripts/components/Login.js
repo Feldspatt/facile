@@ -1,11 +1,13 @@
 import {Component} from "../facile/components/Component.mjs";
 import slot from "../facile/helpers/slot.js";
 import Button from "./Button.js";
+import {credentials} from "../app.mjs";
 
 export class Login extends Component {
-    constructor(guard) {
+    constructor(onLogin = ()=>{}, onCancel= ()=>{}) {
         super();
-        this.guard = guard;
+        this.onLogin = onLogin;
+        this.onCancel = onCancel;
     }
 
     async getTemplate() {
@@ -13,33 +15,40 @@ export class Login extends Component {
             <div>
                 <h1>Login</h1>
                 <div>
-                    ${slot("login")}
-                    ${slot("fail")}
-                    ${slot("cancel")}
+                    <div>
+                        <label for="isLoggedIn">Logged in:</label>
+                        <input type="checkbox" id="isLoggedIn">
+                    </div>
+                    <div>
+                        ${slot("login")}
+                        ${slot("cancel")}
+                    </div>
                 </div>
-                
             </div>
     `}
 
     async bindJavascript() {
         await super.bindJavascript()
 
-        let loginButton = new Button("Login", () => {
-            alert("login")
+        this.element.querySelector("#isLoggedIn").addEventListener("change", (e) => {
+            credentials.isLoggedIn = e.target.checked
         })
 
-        let cancelButton = new Button("Cancel", () => {
-            alert("cancel")
+        let loginButton = new Button("Login", async () => {
+            if (this.element.querySelector("#isLoggedIn").checked) {
+                await this.onLogin()
+            } else {
+                alert("login failed")
+            }
         })
 
-        let failButton = new Button("Fail", () => {
-            alert("fail")
+        let cancelButton = new Button("Cancel", async () => {
+            await this.onCancel()
         })
 
         await this.fillSlots(new Map([
             ["login", await loginButton.getElement()],
             ["cancel", await cancelButton.getElement()],
-            ["fail", await failButton.getElement()]
         ]))
     }
 

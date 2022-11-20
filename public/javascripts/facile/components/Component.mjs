@@ -29,12 +29,6 @@ export class Component {
     element
 
     /**
-     *
-     * @type {{}}
-     */
-    state = {}
-
-    /**
      * Get the DOM element of the component. Init the element if it is not already done.
      * In most cases, override initElement() instead of this method.
      * @returns {Promise<Element>}
@@ -58,6 +52,14 @@ export class Component {
      */
     async removeElement(){
         if(this.element) this.element.remove()
+    }
+
+    async importState(state){
+
+    }
+
+    async exportState(){
+
     }
 
     /**

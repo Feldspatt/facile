@@ -5,6 +5,13 @@ import {ThirdView} from "./views/ThirdView.mjs";
 import {LoginView} from "./views/LoginView.js";
 
 
+// These is only for demonstration purpose. Login should be handled in a more secure way.
+export const credentials = {
+    isLoggedIn: false,
+    privileges: []
+}
+
+
 export const defaultViewClasses = [
     Index,
     SecondView,
