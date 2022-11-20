@@ -7,8 +7,8 @@ export class Guard {
 
     static answers = [
         "allow", // router will continue normally.
-        "redirect", // router will stay on the current view.
-        "stop", // router will go to the first view in it's viewClasses array.
+        "redirect", // router will go to the redirect url specified in the view.
+        "stop", // router do nothing.
     ]
 
     static defense = async ()=>{

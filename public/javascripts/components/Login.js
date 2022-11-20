@@ -3,6 +3,11 @@ import slot from "../facile/helpers/slot.js";
 import Button from "./Button.js";
 
 export class Login extends Component {
+    constructor(guard) {
+        super();
+        this.guard = guard;
+    }
+
     async getTemplate() {
         return`
             <div>
