@@ -7,7 +7,17 @@ export class Router {
     views = []
     currentView = null
 
+    /**
+     *
+     * @param route
+     * @param params
+     * @param pushState
+     * @returns {Promise<void>}
+     */
     async goToView(route, params, pushState = true) {
+        console.log("route: ", route)
+        console.log("split: ", route.split("/"))
+
         if(this.currentView?.url === route) {
             console.warn(`Already on ${route} view`)
             return
@@ -22,7 +32,7 @@ export class Router {
             this.currentView = foundView
         }
         else {
-            let viewClass = this.viewClasses.find(view => view.route === route) // For convenience, the route is defined by the name of the route. If you use a bundler bewware that it may change this name. Consider defining  an explicit static route property inside of the class instead.
+            let viewClass = this.viewClasses.find(viewClass => viewClass.route === route)
             if (!viewClass) {
                 viewClass = this.viewClasses[0]
                 console.warn(`View ${route} not found, using default view`)
@@ -33,8 +43,8 @@ export class Router {
 
         this.views.push(this.currentView)
 
-        if(pushState) history.pushState({route}, route, this.currentView.url)
-
+        if(pushState) history.pushState(this.currentView.state, route, this.currentView.url)
+        //if(pushState && previousView) history.pushState(previousView.state , route, previousView.url)
 
         async function switchView(currentView) {
             if (previousView) await previousView?.removeElement()

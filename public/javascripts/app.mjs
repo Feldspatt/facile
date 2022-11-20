@@ -1,15 +1,15 @@
 import {Router} from "./facile/Router.mjs";
-import {Home} from "./views/Home.mjs";
+import {Index} from "./views/Index.mjs";
 import {SecondView} from "./views/SecondView.mjs";
 import {ThirdView} from "./views/ThirdView.mjs";
-import {Login} from "./views/Login.js";
+import {LoginView} from "./views/LoginView.js";
 
 
-const defaultViewClasses = [
-    Home,
+export const defaultViewClasses = [
+    Index,
     SecondView,
     ThirdView,
-    Login
+    LoginView
 ]
 
 export const router = new Router(defaultViewClasses)

@@ -1,4 +1,4 @@
-import {View} from "../facile/Components/View.mjs";
+import {View} from "../facile/components/View.mjs";
 
 export class ThirdView extends View {
     static route = "thirdview"

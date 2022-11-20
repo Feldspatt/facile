@@ -1,5 +1,5 @@
 import {Component} from "./Component.mjs";
-import stringToHTMLElement from "./helpers/stringToHtmlElement.mjs";
+import stringToHTMLElement from "../helpers/stringToHtmlElement.mjs";
 import {router} from "../../app.mjs";
 
 /**
@@ -16,7 +16,7 @@ export class ViewLink extends Component{
         return `<a href="${this.route}">${this.text}</a>`;
     }
 
-    async initElement(){
+    async bindJavascript(){
         this.element = stringToHTMLElement(await this.getTemplate());
         this.element.addEventListener("click", (e) => {
             e.preventDefault();
