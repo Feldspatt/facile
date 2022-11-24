@@ -7,7 +7,7 @@ export class Router {
     views = new Map()
     currentView = null
 
-    async goToView(route, params, forceNewView = false, pushState = true) {
+    async goToView(route, params = [], forceNewView = false, pushState = true) {
         console.log("goToView", route, params)
         console.log("forceNewView", forceNewView)
         if(this.currentView?.url === route) {
@@ -77,7 +77,7 @@ export class Router {
     setBrowserHistory(){
         window.addEventListener('popstate', async (event) => {
             if(event.state){
-                await this.goToView(event.state.route, {}, false,false)
+                await this.goToView(event.state.route, undefined, false,false)
             }
         })
     }
